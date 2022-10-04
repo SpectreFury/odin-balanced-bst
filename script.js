@@ -26,6 +26,21 @@ class Tree {
     }
   }
 
+  buildTree(arr, start, end) {
+    if (start > end) {
+      return;
+    }
+
+    const mid = Math.floor((start + end) / 2);
+
+    const node = new Node(arr[mid]);
+
+    node.left = this.buildTree(arr, start, mid - 1);
+    node.right = this.buildTree(arr, mid + 1, end);
+
+    return node;
+  }
+
   insert(data) {
     const node = new Node(data);
 
@@ -232,5 +247,14 @@ class Tree {
     }
 
     return false;
+  }
+
+  rebalance() {
+    const oldArray = this.preorder();
+    const newArray = oldArray.sort();
+
+    const node = this.buildTree(newArray, 0, newArray.length - 1);
+
+    this.root = node;
   }
 }
